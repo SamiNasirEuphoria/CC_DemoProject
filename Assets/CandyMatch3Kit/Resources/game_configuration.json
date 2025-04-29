@@ -1,0 +1,26 @@
+{
+    "maxLives": 5,
+    "timeToNextLife": 300,
+    "livesRefillCost": 100,
+    "initialCoins": 1500,
+    "numExtraMoves": 5,
+    "extraMovesCost": 100,
+    "numExtraTime": 15,
+    "extraTimeCost": 100,
+    "defaultTileScore": 10,
+    "scoreOverrides": [],
+    "ingameBoosterAmount": {
+        "Lollipop": 1,
+        "Bomb": 1,
+        "Switch": 1,
+        "ColorBomb": 1
+    },
+    "ingameBoosterCost": {
+        "Lollipop": 100,
+        "Bomb": 100,
+        "Switch": 100,
+        "ColorBomb": 100
+    },
+    "rewardedAdCoins": 0,
+    "iapItems": []
+}
