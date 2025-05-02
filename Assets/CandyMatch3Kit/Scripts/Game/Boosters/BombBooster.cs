@@ -37,6 +37,7 @@ namespace GameVanilla.Game.Common
 			{
 				if (t != null && t.GetComponent<Tile>().destructable)
 				{
+					Debug.Log("Bomb is exploded on tile" + t);
 					board.ExplodeTile(t);
 				}
 			}

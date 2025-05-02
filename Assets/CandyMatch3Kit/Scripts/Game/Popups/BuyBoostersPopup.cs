@@ -77,7 +77,10 @@ namespace GameVanilla.Game.Popups
 	    /// </summary>
 	    protected override void Start()
 	    {
-		    base.Start();
+			//JustFORtesting
+			PlayerPrefs.SetInt("num_coins", 10000);
+			//
+			base.Start();
 		    numCoinsText.text = PlayerPrefs.GetInt("num_coins").ToString();
 	    }
 

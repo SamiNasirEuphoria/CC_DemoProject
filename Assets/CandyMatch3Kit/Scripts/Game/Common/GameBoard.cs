@@ -122,7 +122,7 @@ namespace GameVanilla.Game.Common
         private readonly MatchDetector lShapedMatchDetector = new LshapedMatchDetector();
 
         private int consecutiveCascades;
-
+        public GameObject explosionParticle;
         /// <summary>
         /// Unity's Awake method.
         /// </summary>
@@ -481,6 +481,7 @@ namespace GameVanilla.Game.Common
                     }
 
                     selectedTile = hit.collider.gameObject;
+                  
                     selectedTile.GetComponent<Animator>().SetTrigger("Pressed");
                 }
             }
@@ -661,10 +662,21 @@ namespace GameVanilla.Game.Common
             }
         }
 
-        /// <summary>
-        /// Handles the player's input when the game is in booster mode.
-        /// </summary>
-        public void HandleBoosterInput(BuyBoosterButton button)
+
+
+        IEnumerator Explode(Booster booster, Tile tile)
+        {
+            yield return new WaitWhile(() => Chopper.Instance.check);
+            
+                booster.Resolve(this, tile.gameObject);
+                Instantiate(explosionParticle, tile.transform.position, tile.transform.rotation);
+                Chopper.Instance.GoToParking();
+            
+        }
+    /// <summary>
+    /// Handles the player's input when the game is in booster mode.
+    /// </summary>
+    public void HandleBoosterInput(BuyBoosterButton button)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -676,7 +688,8 @@ namespace GameVanilla.Game.Common
                     {
                         return;
                     }
-
+                    selectedTile = hit.collider.gameObject;
+                    Chopper.Instance.MoveChopper(selectedTile);
                     var tile = hit.collider.GetComponent<Tile>();
                     Booster booster = null;
                     switch (button.boosterType)
@@ -696,14 +709,14 @@ namespace GameVanilla.Game.Common
 
                     if (booster != null)
                     {
-                        booster.Resolve(this, tile.gameObject);
+                        //booster.Resolve(this, tile.gameObject);
+                        StartCoroutine(Explode(booster, tile));
                         ConsumeBooster(button);
                         ApplyGravity();
                     }
 
                     gameScene.DisableBoosterMode();
 
-                    selectedTile = hit.collider.gameObject;
                 }
                 else
                 {
@@ -711,7 +724,7 @@ namespace GameVanilla.Game.Common
                 }
             }
         }
-
+       
         /// <summary>
         /// Handles the player's input when the game is in booster mode and the booster used is the switch.
         /// </summary>
