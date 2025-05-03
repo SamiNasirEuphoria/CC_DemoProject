@@ -102,7 +102,7 @@ public class Chopper : MonoBehaviour
     IEnumerator Move(GameObject destPosition) {
         while (check)
         {
-            currentTarget = destPosition.transform.position;
+            currentTarget = new Vector3(destPosition.transform.position.x, destPosition.transform.position.y, destPosition.transform.position.z-5);
             Vector3 direction = (currentTarget - transform.position).normalized;
             transform.position += direction * chopperSpeed * Time.deltaTime;
             if (Vector3.Distance(transform.position, currentTarget) > 0.1f)

@@ -661,15 +661,13 @@ namespace GameVanilla.Game.Common
                 }
             }
         }
-
-
-
         IEnumerator Explode(Booster booster, Tile tile)
         {
             yield return new WaitWhile(() => Chopper.Instance.check);
             
                 booster.Resolve(this, tile.gameObject);
                 Instantiate(explosionParticle, tile.transform.position, tile.transform.rotation);
+                ApplyGravity();
                 Chopper.Instance.GoToParking();
             
         }
@@ -689,7 +687,6 @@ namespace GameVanilla.Game.Common
                         return;
                     }
                     selectedTile = hit.collider.gameObject;
-                    Chopper.Instance.MoveChopper(selectedTile);
                     var tile = hit.collider.GetComponent<Tile>();
                     Booster booster = null;
                     switch (button.boosterType)
@@ -707,12 +704,17 @@ namespace GameVanilla.Game.Common
                             break;
                     }
 
-                    if (booster != null)
+                    if (booster != null && !(button.boosterType == BoosterType.Bomb))
                     {
-                        //booster.Resolve(this, tile.gameObject);
-                        StartCoroutine(Explode(booster, tile));
+                        booster.Resolve(this, tile.gameObject);
                         ConsumeBooster(button);
                         ApplyGravity();
+                    }
+                    else
+                    {
+                        Chopper.Instance.MoveChopper(selectedTile);
+                        StartCoroutine(Explode(booster, tile));
+                        ConsumeBooster(button);
                     }
 
                     gameScene.DisableBoosterMode();
