@@ -9,6 +9,7 @@ using UnityEngine.UI;
 using GameVanilla.Core;
 using GameVanilla.Game.Common;
 using GameVanilla.Game.UI;
+using System.Collections;
 
 namespace GameVanilla.Game.Scenes
 {
@@ -29,6 +30,8 @@ namespace GameVanilla.Game.Scenes
         [SerializeField]
         private GameObject rewardedAdButton;
 
+
+        public static bool check;
         /// <summary>
         /// Unity's Awake method.
         /// </summary>
@@ -40,6 +43,18 @@ namespace GameVanilla.Game.Scenes
             Assert.IsNotNull(rewardedAdButton);
         }
 
+        private void CallForBonusLevel(int levelNum)
+        {
+            if (levelNum % 10 == 0)
+            {
+                Debug.Log("Here is the bonus Level");
+                check = true;
+            }
+            else
+            {
+                check = false;
+            }
+        }
         /// <summary>
         /// Unity's Start method.
         /// </summary>
@@ -118,6 +133,9 @@ namespace GameVanilla.Game.Scenes
                 avatar.GetComponent<LevelAvatar>().StartFloatingAnimation();
                 scrollRect.vertical = true;
             }
+
+            //CallForBonusLevel(currentButton.numLevel);
+
         }
     }
 }

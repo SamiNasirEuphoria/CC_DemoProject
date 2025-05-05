@@ -5,7 +5,6 @@
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.UI;
-
 using GameVanilla.Core;
 using GameVanilla.Game.Scenes;
 using GameVanilla.Game.UI;
@@ -18,7 +17,7 @@ namespace GameVanilla.Game.Popups
     public class EndGamePopup : Popup
     {
         [SerializeField]
-        private Text levelText;
+        public Text levelText;
 
         [SerializeField]
         private Text scoreText;
@@ -39,6 +38,7 @@ namespace GameVanilla.Game.Popups
             Assert.IsNotNull(scoreText);
             Assert.IsNotNull(goalGroup);
             Assert.IsNotNull(scoreOnlyReachedText);
+           
         }
 
         /// <summary>
@@ -69,6 +69,11 @@ namespace GameVanilla.Game.Popups
         public void SetLevel(int level)
         {
             levelText.text = "Level " + level;
+           
+                if (levelText.text == "Level 0")
+                {
+                    Debug.Log("You failed bonus level");
+                }
         }
 
         /// <summary>

@@ -41,6 +41,8 @@ namespace GameVanilla.Game.Scenes
 		private BuyBoosterButton currentBoosterButton;
 		private int ingameBoosterBgTweenId;
 
+        public float bonusAlertWait, bonusDuration;
+        public GameObject bonusAlert, bonusEndAlert;
 	    /// <summary>
 	    /// Unity's Awake method.
 	    /// </summary>
@@ -62,12 +64,34 @@ namespace GameVanilla.Game.Scenes
 
 			level = gameBoard.level;
             OpenPopup<LevelGoalsPopup>("Popups/LevelGoalsPopup", popup => popup.SetGoals(level.goals));
+
+            if (PuzzleMatchManager.instance.lastSelectedLevel%10 ==0)
+               
+            StartCoroutine(Wait());
+            else
+                Debug.Log("Ordinary Level");
 		}
 
-	    /// <summary>
-	    /// Unity's Update method.
-	    /// </summary>
-		private void Update()
+        public void BonusTimerOn()
+        {
+            StartCoroutine(CallForBonusEnd());
+        }
+        
+
+        IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(bonusAlertWait);
+            bonusAlert.SetActive(true);
+        }
+        IEnumerator CallForBonusEnd()
+        {
+            yield return new WaitForSeconds(bonusDuration);
+            bonusEndAlert.SetActive(true);
+        }
+        /// <summary>
+        /// Unity's Update method.
+        /// </summary>
+        private void Update()
 		{
 			if (!gameStarted || gameFinished)
 			{
