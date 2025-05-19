@@ -137,7 +137,13 @@ namespace GameVanilla.Core
         public void SetMusicEnabled(bool musicEnabled)
         {
             PlayerPrefs.SetInt("music_enabled", musicEnabled ? 1 : 0);
-            bgMusic.GetComponent<AudioSource>().mute = !musicEnabled;
+            //bgMusic.GetComponent<BackgroundMusic>().audioSource[0].mute = !musicEnabled;
+            //bgMusic.GetComponent<BackgroundMusic>().audioSource[1].mute = !musicEnabled;
+            foreach (AudioSource source in bgMusic.GetComponent<BackgroundMusic>().audioSource)
+            {
+                source.mute = !musicEnabled;
+            }
+            //bgMusic.GetComponent<AudioSource>().mute = !musicEnabled;
         }
 
         /// <summary>
@@ -156,7 +162,11 @@ namespace GameVanilla.Core
         {
             var music = PlayerPrefs.GetInt("music_enabled");
             PlayerPrefs.SetInt("music_enabled", 1 - music);
-            bgMusic.GetComponent<AudioSource>().mute = (1 - music) == 0;
+            foreach (AudioSource source in bgMusic.GetComponent<BackgroundMusic>().audioSource)
+            {
+                source.mute = (1 - music) == 0;
+            }
+           // bgMusic.GetComponent<AudioSource>().mute = (1 - music) == 0;
         }
     }
 }

@@ -357,19 +357,19 @@ namespace GameVanilla.Game.Scenes
 			switch (button.boosterType)
 			{
 				case BoosterType.Lollipop:
-					ingameBoosterText.text = "Select a tile for the lollipop:";
+					ingameBoosterText.text = "Select a tile for the Tank to destroy:";
 					break;
 
 				case BoosterType.Bomb:
-					ingameBoosterText.text = "Select a tile for the bomb:";
+					ingameBoosterText.text = "Select a tile for the Helicopter to drop a bomb:";
 					break;
 
 				case BoosterType.Switch:
-					ingameBoosterText.text = "Swap two tiles:";
+					ingameBoosterText.text = "Swap two tiles using Army Van:";
 					break;
 
 				case BoosterType.ColorBomb:
-					ingameBoosterText.text = "Select a tile for the color bomb:";
+					ingameBoosterText.text = "Select a tile for the color bomb using Army Ship:";
 					break;
 			}
 		}

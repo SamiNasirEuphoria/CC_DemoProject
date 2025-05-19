@@ -13,6 +13,8 @@ namespace GameVanilla.Game.UI
     /// </summary>
     public class LevelAvatar : MonoBehaviour
     {
+
+        public float speed;
         [SerializeField]
         private Sprite girlAvatarSprite;
 
@@ -53,6 +55,7 @@ namespace GameVanilla.Game.UI
             {
                 return;
             }
+
 
             var deltaHeight = Mathf.Sin(runningTime + Time.deltaTime);
             var newPos = transform.position;

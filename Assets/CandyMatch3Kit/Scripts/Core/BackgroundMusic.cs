@@ -13,7 +13,7 @@ namespace GameVanilla.Core
     {
         private static BackgroundMusic instance;
 
-        private AudioSource audioSource;
+        public AudioSource[] audioSource;
 
         /// <summary>
         /// Unity's Awake method.
@@ -28,7 +28,7 @@ namespace GameVanilla.Core
             instance = this;
             DontDestroyOnLoad(gameObject);
 
-            audioSource = GetComponent<AudioSource>();
+            //audioSource[] = GetComponent<AudioSource>();
         }
 
         /// <summary>
@@ -37,8 +37,10 @@ namespace GameVanilla.Core
         private void Start()
         {
             var music = PlayerPrefs.GetInt("music_enabled");
-            audioSource.mute = music == 0;
-            audioSource.Play();
+            audioSource[0].mute = music == 0;
+            audioSource[0].Play();
+            audioSource[1].mute = music == 0;
+            audioSource[1].Play();
         }
     }
 }
