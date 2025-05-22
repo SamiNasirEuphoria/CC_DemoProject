@@ -704,19 +704,23 @@ namespace GameVanilla.Game.Common
                             break;
                     }
 
-                    if (booster != null && !(button.boosterType == BoosterType.Bomb))
+                    if (booster != null && (button.boosterType == BoosterType.ColorBomb))
                     {
                         booster.Resolve(this, tile.gameObject);
                         ConsumeBooster(button);
                         ApplyGravity();
                     }
-                    else
+                    else if(booster != null && button.boosterType == BoosterType.Bomb)
                     {
                         Chopper.Instance.MoveChopper(selectedTile);
                         StartCoroutine(Explode(booster, tile));
                         ConsumeBooster(button);
                     }
-
+                    else if (booster != null && button.boosterType == BoosterType.Lollipop)
+                    {
+                        ConsumeBooster(button);
+                        Debug.Log("Tank aaya");
+                    }
                     gameScene.DisableBoosterMode();
 
                 }

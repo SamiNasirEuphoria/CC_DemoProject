@@ -30400,7 +30400,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Win 5$ Ruppees Cashback
+  m_Text: Win 5$ Cashback
 --- !u!114 &18472794209052211
 MonoBehaviour:
   m_ObjectHideFlags: 0

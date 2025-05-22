@@ -3,6 +3,7 @@
 // a copy of which is available at http://unity3d.com/company/legal/as_terms.
 
 using UnityEngine;
+using System.Collections.Generic;
 
 namespace GameVanilla.Game.Common
 {
@@ -18,7 +19,44 @@ namespace GameVanilla.Game.Common
         /// <param name="tile">The tile in which to apply the booster.</param>
 		public override void Resolve(GameBoard board, GameObject tile)
 		{
-			board.ExplodeTile(tile);
+			
+			var tiles = new List<GameObject>();
+			var x = tile.GetComponent<Tile>().x;
+			var y = tile.GetComponent<Tile>().y;
+			tiles.Add(board.GetTile(x - 1, y - 1));
+			tiles.Add(board.GetTile(x-2, y-2));
+			tiles.Add(board.GetTile(x - 3, y - 3));
+			tiles.Add(board.GetTile(x, y - 1));
+			tiles.Add(board.GetTile(x, y - 2));
+			tiles.Add(board.GetTile(x, y - 3));
+			tiles.Add(board.GetTile(x + 1, y - 1));
+			tiles.Add(board.GetTile(x + 2, y - 2));
+			tiles.Add(board.GetTile(x + 3, y - 3));
+			tiles.Add(board.GetTile(x - 1, y));
+			tiles.Add(board.GetTile(x - 2, y));
+			tiles.Add(board.GetTile(x - 3, y));
+			tiles.Add(tile);
+			tiles.Add(board.GetTile(x + 1, y));
+			tiles.Add(board.GetTile(x + 2, y));
+			tiles.Add(board.GetTile(x + 3, y));
+			tiles.Add(board.GetTile(x - 1, y + 1));
+			tiles.Add(board.GetTile(x - 2, y + 2));
+			tiles.Add(board.GetTile(x - 3, y + 3));
+			tiles.Add(board.GetTile(x, y + 1));
+			tiles.Add(board.GetTile(x, y + 2));
+			tiles.Add(board.GetTile(x, y + 3));
+			tiles.Add(board.GetTile(x + 1, y + 1));
+			tiles.Add(board.GetTile(x + 2, y + 2));
+			tiles.Add(board.GetTile(x + 3, y + 3));
+
+			foreach (var t in tiles)
+			{
+				if (t != null && t.GetComponent<Tile>().destructable)
+				{
+					Debug.Log("Bomb is exploded on tile" + t);
+					board.ExplodeTile(t);
+				}
+			}
 		}
 	}
 }

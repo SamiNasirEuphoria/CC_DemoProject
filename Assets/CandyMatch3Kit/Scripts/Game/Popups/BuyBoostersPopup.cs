@@ -95,25 +95,25 @@ namespace GameVanilla.Game.Popups
 			{
 				case BoosterType.Lollipop:
 					boosterImage.sprite = lollipopSprite;
-					boosterNameText.text = "Lollipop";
-					boosterDescriptionText.text = "Destroy one candy of your choice on the board.";
+					boosterNameText.text = "Giant Tank";
+					boosterDescriptionText.text = "Destroy all candies around on the board.";
 					break;
 
 				case BoosterType.Bomb:
 					boosterImage.sprite = bombSprite;
-					boosterNameText.text = "Bomb";
+					boosterNameText.text = "Helicopter Bomb";
 					boosterDescriptionText.text = "Destroy all the adjacent candies.";
 					break;
 
 				case BoosterType.Switch:
 					boosterImage.sprite = switchSprite;
-					boosterNameText.text = "Switch";
+					boosterNameText.text = "Army Van";
 					boosterDescriptionText.text = "Switch two candies.";
 					break;
 
 				case BoosterType.ColorBomb:
 					boosterImage.sprite = colorBombSprite;
-					boosterNameText.text = "Color bomb";
+					boosterNameText.text = "Fighter Ship";
 					boosterDescriptionText.text = "Destroy all the candies of the same random color.";
 					break;
 			}
