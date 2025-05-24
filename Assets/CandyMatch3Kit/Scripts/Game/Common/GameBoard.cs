@@ -126,6 +126,7 @@ namespace GameVanilla.Game.Common
 
         public GameObject orangeCar;
         public GameObject greenCar;
+        public GameObject shipExplosion;
         /// <summary>
         /// Unity's Awake method.
         /// </summary>
@@ -710,9 +711,8 @@ namespace GameVanilla.Game.Common
                     }
                     if (booster != null && (button.boosterType == BoosterType.ColorBomb))
                     {
-                        booster.Resolve(this, tile.gameObject);
-                        ConsumeBooster(button);
-                        ApplyGravity();
+                        shipExplosion.SetActive(true);
+                        StartCoroutine(ShipWait(booster, tile, button));
                     }
                     else if(booster != null && button.boosterType == BoosterType.Bomb)
                     {
@@ -736,7 +736,15 @@ namespace GameVanilla.Game.Common
                 }
             }
         }
-       
+        IEnumerator ShipWait( Booster booster, Tile tile, BuyBoosterButton button)
+        {
+            yield return new WaitForSeconds(2.5f);
+            booster.Resolve(this, tile.gameObject);
+            ConsumeBooster(button);
+            ApplyGravity();
+            yield return new WaitForSeconds(3.0f);
+            shipExplosion.SetActive(false);
+        }
         /// <summary>
         /// Handles the player's input when the game is in booster mode and the booster used is the switch.
         /// </summary>
