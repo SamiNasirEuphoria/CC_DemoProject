@@ -123,6 +123,9 @@ namespace GameVanilla.Game.Common
 
         private int consecutiveCascades;
         public GameObject explosionParticle;
+
+        public GameObject orangeCar;
+        public GameObject greenCar;
         /// <summary>
         /// Unity's Awake method.
         /// </summary>
@@ -653,9 +656,7 @@ namespace GameVanilla.Game.Common
                                 LeanTween.move(hitTileCopy, hitTilePos, 0.2f);
                             });
                         }
-
                         selectedTile = null;
-
                         SoundManager.instance.PlaySound("Error");
                     }
                 }
@@ -671,10 +672,16 @@ namespace GameVanilla.Game.Common
                 Chopper.Instance.GoToParking();
             
         }
-    /// <summary>
-    /// Handles the player's input when the game is in booster mode.
-    /// </summary>
-    public void HandleBoosterInput(BuyBoosterButton button)
+        IEnumerator ExplodeTank(Booster booster, Tile tile)
+        {
+            yield return new WaitWhile(() => Tank.Instance.check);
+            booster.Resolve(this, tile.gameObject);
+            ApplyGravity();
+        }
+        /// <summary>
+        /// Handles the player's input when the game is in booster mode.
+        /// </summary>
+        public void HandleBoosterInput(BuyBoosterButton button)
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -694,16 +701,13 @@ namespace GameVanilla.Game.Common
                         case BoosterType.Lollipop:
                             booster = new LollipopBooster();
                             break;
-
                         case BoosterType.Bomb:
                             booster = new BombBooster();
                             break;
-
                         case BoosterType.ColorBomb:
                             booster = new ColorBombBooster();
                             break;
                     }
-
                     if (booster != null && (button.boosterType == BoosterType.ColorBomb))
                     {
                         booster.Resolve(this, tile.gameObject);
@@ -718,8 +722,10 @@ namespace GameVanilla.Game.Common
                     }
                     else if (booster != null && button.boosterType == BoosterType.Lollipop)
                     {
+                        Tank.Instance.missileDestinationPosition = selectedTile;
+                        Tank.Instance.Attack();
+                        StartCoroutine(ExplodeTank(booster, tile));
                         ConsumeBooster(button);
-                        Debug.Log("Tank aaya");
                     }
                     gameScene.DisableBoosterMode();
 
@@ -758,14 +764,18 @@ namespace GameVanilla.Game.Common
 
             if (drag && selectedTile != null)
             {
+                greenCar.SetActive(true);
+                orangeCar.SetActive(true);
                 var hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
                 if (hit.collider != null && hit.collider.gameObject != selectedTile)
                 {
+                    
                     var selectedTileCopy = selectedTile;
                     selectedTile.GetComponent<SpriteRenderer>().sortingOrder = 1;
-                    LeanTween.move(selectedTile, hit.collider.gameObject.transform.position, 0.25f).setOnComplete(
+                    LeanTween.move(selectedTile, hit.collider.gameObject.transform.position, 1.25f).setOnComplete(
                         () =>
                         {
+                           Debug.Log("Move candy booster");
                             selectedTileCopy.GetComponent<SpriteRenderer>().sortingOrder = 0;
                             gameScene.DisableBoosterMode();
                             HandleMatches(true);
@@ -788,10 +798,17 @@ namespace GameVanilla.Game.Common
                     selectedTile = null;
 
                     possibleSwaps = DetectPossibleSwaps();
+                    StartCoroutine(Wait());
+                    
                 }
             }
         }
-
+        IEnumerator Wait()
+        {
+            yield return new WaitForSeconds(3.0f);
+            greenCar.SetActive(false);
+            orangeCar.SetActive(false);
+        }
         /// <summary>
         /// Performs a move.
         /// </summary>
