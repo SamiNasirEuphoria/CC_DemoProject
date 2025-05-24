@@ -162,7 +162,7 @@
             "$type": "GameVanilla.Game.Common.CandyTile"
         },
         {
-            "type": "RandomCandy",
+            "type": "BlueCandy",
             "elementType": "Ice",
             "$type": "GameVanilla.Game.Common.CandyTile"
         },

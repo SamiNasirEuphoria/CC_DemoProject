@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Assertions;
 
 using FullSerializer;
@@ -127,6 +128,9 @@ namespace GameVanilla.Game.Common
         public GameObject orangeCar;
         public GameObject greenCar;
         public GameObject shipExplosion;
+        public GameObject levelSkipButton;
+        private Coroutine coroutine;
+        private bool check;
         /// <summary>
         /// Unity's Awake method.
         /// </summary>
@@ -142,6 +146,7 @@ namespace GameVanilla.Game.Common
         /// </summary>
         private void Start()
         {
+            levelSkipButton.SetActive(false);
             SoundManager.instance.AddSounds(gameSounds);
         }
 
@@ -2319,7 +2324,7 @@ namespace GameVanilla.Game.Common
         /// </summary>
         public void AwardSpecialCandies()
         {
-            StartCoroutine(AwardSpecialCandiesAsync());
+            coroutine = StartCoroutine(AwardSpecialCandiesAsync());
         }
 
         /// <summary>
@@ -2328,6 +2333,8 @@ namespace GameVanilla.Game.Common
         /// <returns>The coroutine.</returns>
         private IEnumerator AwardSpecialCandiesAsync()
         {
+            levelSkipButton.SetActive(true);
+            Debug.Log("Mission Completed Now");
             currentlyAwarding = true;
             yield return new WaitForSeconds(1.0f);
             gameScene.OpenPopup<SpecialCandiesAwardPopup>("Popups/SpecialCandiesAwardPopup");
@@ -2385,6 +2392,11 @@ namespace GameVanilla.Game.Common
             gameScene.OpenWinPopup();
         }
 
+        public void SkipLevel()
+        {
+            gameScene.OpenWinPopup();
+            StopCoroutine(coroutine);
+        }
         /// <summary>
         /// Checks if the specified tile is a regular candy.
         /// </summary>

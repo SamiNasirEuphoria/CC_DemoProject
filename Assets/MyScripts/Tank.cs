@@ -76,7 +76,6 @@ public class Tank : MonoBehaviour
         {
             angle -= Time.deltaTime * headRotateSpeed;
             headObject.transform.localEulerAngles = new Vector3(0, angle, 0);
-            Debug.Log("Now the angle is " + angle);
             yield return null;
         }
         headObject.transform.localEulerAngles = new Vector3(0, -90f, 0);
