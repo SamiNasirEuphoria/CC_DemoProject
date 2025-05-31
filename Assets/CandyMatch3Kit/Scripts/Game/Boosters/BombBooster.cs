@@ -33,7 +33,23 @@ namespace GameVanilla.Game.Common
             tiles.Add(board.GetTile(x, y + 1));
             tiles.Add(board.GetTile(x + 1, y + 1));
 
-			foreach (var t in tiles)
+
+
+
+
+            //var lenghtX = board.level.width;
+            //var lenghtY = board.level.height;
+            //var countX = lenghtX / 2;
+            //var countY = lenghtY / 2;
+            //         for (int i=0; i< countX; countX++)
+            //         {
+            //             for (int j=0; j<countY; countY++ )
+            //             {
+            //		tiles.Add(board.GetTile(countX, countY));
+            //             }
+            //         }
+
+            foreach (var t in tiles)
 			{
 				if (t != null && t.GetComponent<Tile>().destructable)
 				{

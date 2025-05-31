@@ -107,8 +107,8 @@ namespace GameVanilla.Game.Popups
 
 				case BoosterType.Switch:
 					boosterImage.sprite = switchSprite;
-					boosterNameText.text = "Army Van";
-					boosterDescriptionText.text = "Switch two candies.";
+					boosterNameText.text = "Army Missile";
+					boosterDescriptionText.text = "Destroy an entire row or column";
 					break;
 
 				case BoosterType.ColorBomb:

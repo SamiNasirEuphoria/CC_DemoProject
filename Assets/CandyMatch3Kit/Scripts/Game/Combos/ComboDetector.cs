@@ -57,7 +57,14 @@ namespace GameVanilla.Game.Common
             {
                 return new TwoWrappedCandyCombo {tileA = tileA, tileB = tileB};
             }
-            
+
+
+            // Directional bomb + normal candy (assumes direction provided externally)
+            if ((tileA.GetComponent<DirectionalBomb>() != null && tileB.GetComponent<Candy>() != null) ||
+                (tileB.GetComponent<DirectionalBomb>() != null && tileA.GetComponent<Candy>() != null))
+            {
+                return new DirectionalBombCombo { tileA = tileA, tileB = tileB };
+            }
             // Wrapped candy + Striped candy.
             if ((tileA.GetComponent<WrappedCandy>() != null &&
                  tileB.GetComponent<StripedCandy>() != null) ||

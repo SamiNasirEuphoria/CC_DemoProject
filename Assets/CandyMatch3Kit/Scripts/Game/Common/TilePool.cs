@@ -47,6 +47,7 @@ namespace GameVanilla.Game.Common
         public ObjectPool yellowWrappedCandyPool;
 
         public ObjectPool colorBombCandyPool;
+        public ObjectPool rocketMissile;
 
         public ObjectPool honeyPool;
         public ObjectPool icePool;
@@ -108,7 +109,7 @@ namespace GameVanilla.Game.Common
             Assert.IsNotNull(yellowWrappedCandyPool);
 
             Assert.IsNotNull(colorBombCandyPool);
-
+            Assert.IsNotNull(rocketMissile);
             Assert.IsNotNull(honeyPool);
             Assert.IsNotNull(icePool);
             Assert.IsNotNull(syrup1Pool);

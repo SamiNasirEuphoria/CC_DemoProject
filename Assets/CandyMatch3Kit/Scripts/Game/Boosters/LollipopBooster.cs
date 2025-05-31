@@ -19,7 +19,6 @@ namespace GameVanilla.Game.Common
         /// <param name="tile">The tile in which to apply the booster.</param>
 		public override void Resolve(GameBoard board, GameObject tile)
 		{
-			
 			var tiles = new List<GameObject>();
 			var x = tile.GetComponent<Tile>().x;
 			var y = tile.GetComponent<Tile>().y;
@@ -57,6 +56,7 @@ namespace GameVanilla.Game.Common
 					board.ExplodeTile(t);
 				}
 			}
+
 		}
 	}
 }

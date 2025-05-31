@@ -105,15 +105,16 @@ namespace GameVanilla.Game.Scenes
 
 			if (boosterMode)
 			{
-				if (currentBoosterButton.boosterType == BoosterType.Switch)
-				{
-					gameBoard.HandleSwitchBoosterInput(currentBoosterButton);
-				}
-				else
-				{
-					gameBoard.HandleBoosterInput(currentBoosterButton);
-				}
-			}
+                gameBoard.HandleBoosterInput(currentBoosterButton);
+                //if (currentBoosterButton.boosterType == BoosterType.Switch)
+                //{
+                //    gameBoard.HandleSwitchBoosterInput(currentBoosterButton);
+                //}
+                //else
+                //{
+                //    gameBoard.HandleBoosterInput(currentBoosterButton);
+                //}
+            }
 			else
 			{
 				gameBoard.HandleInput();
@@ -365,7 +366,7 @@ namespace GameVanilla.Game.Scenes
 					break;
 
 				case BoosterType.Switch:
-					ingameBoosterText.text = "Swap two tiles using Army Van:";
+					ingameBoosterText.text = "Select a tile to drop Rocket Missile:";
 					break;
 
 				case BoosterType.ColorBomb:

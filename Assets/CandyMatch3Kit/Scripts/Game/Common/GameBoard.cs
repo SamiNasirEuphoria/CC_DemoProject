@@ -63,6 +63,7 @@ namespace GameVanilla.Game.Common
         private readonly List<Vector3> tilePositions = new List<Vector3>();
 
         private bool drag;
+        private bool missileCheck;
         private GameObject selectedTile;
 
         private List<Swap> possibleSwaps = new List<Swap>();
@@ -112,7 +113,6 @@ namespace GameVanilla.Game.Common
             Horizontal,
             Vertical
         }
-
         private SwapDirection swapDirection;
 
         private bool currentlySwapping;
@@ -402,6 +402,42 @@ namespace GameVanilla.Game.Common
             }
         }
 
+
+        /// <summary>
+        /// Coroutine to destroy full row and column after delay.
+        /// </summary>
+        public IEnumerator DelayedExplosion(GameBoard board, int x, int y)
+        {
+            yield return new WaitWhile(() => missileCheck);
+            
+                //Destroy full row
+                for (int i = 0; i < board.level.width; i++)
+                {
+                    var t = board.GetTile(i, y);
+                    if (t != null && t.GetComponent<Tile>().destructable)
+                    {
+                        board.ExplodeTile(t);
+                    }
+                }
+          
+                // Destroy full column
+                for (int j = 0; j < board.level.height; j++)
+                {
+                    // Avoid re-exploding center tile if already destroyed
+                    if (j != y)
+                    {
+                        var t = board.GetTile(x, j);
+                        if (t != null && t.GetComponent<Tile>().destructable)
+                        {
+                            board.ExplodeTile(t);
+                        }
+                    }
+                }
+            
+            missileCheck = true;
+            ApplyGravity();
+        }
+
         /// <summary>
         /// Continues the current game.
         /// </summary>
@@ -472,6 +508,14 @@ namespace GameVanilla.Game.Common
                 return;
             }
 
+            if (Input.GetMouseButtonUp(0))
+            {
+                drag = false;
+                if (selectedTile != null && selectedTile.GetComponent<Animator>() != null && selectedTile.gameObject.activeSelf)
+                {
+                    selectedTile.GetComponent<Animator>().SetTrigger("Unpressed");
+                }
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 drag = true;
@@ -493,15 +537,21 @@ namespace GameVanilla.Game.Common
                   
                     selectedTile.GetComponent<Animator>().SetTrigger("Pressed");
                 }
-            }
 
-            if (Input.GetMouseButtonUp(0))
-            {
-                drag = false;
-                if (selectedTile != null && selectedTile.GetComponent<Animator>() != null && selectedTile.gameObject.activeSelf)
-                {
-                    selectedTile.GetComponent<Animator>().SetTrigger("Unpressed");
-                }
+                //handle missile rocket
+                //if (missileCheck && hit.collider != null && hit.collider.gameObject.CompareTag("Rocket"))
+                //{
+                //    HandleSwitchBoosterInput();
+                //    missileCheck = false;
+
+                //}
+                //if (hit.collider != null && hit.collider.CompareTag("Rocket"))
+                //{
+                //    missileCheck = false;
+                //    GameObject selectedTile = hit.collider.gameObject;
+                //    string direction = "Left"; // Based on user choice, you can change this to "Up"
+                //    //SwipeTileDirection(selectedTile, direction);
+                //}
             }
 
             if (drag && selectedTile != null)
@@ -543,14 +593,7 @@ namespace GameVanilla.Game.Common
                         var selectedTileCopy = selectedTile;
                         selectedTile.GetComponent<SpriteRenderer>().sortingOrder = 1;
                         currentlySwapping = true;
-                        LeanTween.move(selectedTile, hit.collider.gameObject.transform.position, 0.25f).setOnComplete(
-                            () =>
-                            {
-                                currentlySwapping = false;
-                                selectedTileCopy.GetComponent<SpriteRenderer>().sortingOrder = 0;
-                                combo.Resolve(this, tiles, fxPool);
-                            });
-                        LeanTween.move(hit.collider.gameObject, selectedTile.transform.position, 0.25f);
+                        
 
                         var tileA = hit.collider.gameObject;
                         var tileB = selectedTile;
@@ -572,9 +615,21 @@ namespace GameVanilla.Game.Common
                         lastOtherSelectedTileX = idxB % level.width;
                         lastOtherSelectedTileY = idxB / level.width;
 
+
+                        LeanTween.move(selectedTile, hit.collider.gameObject.transform.position, 0.25f).setOnComplete(
+                            () =>
+                            {
+                                currentlySwapping = false;
+                                selectedTileCopy.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                                combo.Resolve(this, tiles, fxPool);
+                            });
+                        LeanTween.move(hit.collider.gameObject, selectedTile.transform.position, 0.25f);
+
                         selectedTile = null;
 
+
                         PerformMove();
+                        
                     }
                     else if (possibleSwaps.Find(x => x.tileA == hit.collider.gameObject && x.tileB == selectedTile) !=
                              null ||
@@ -602,10 +657,12 @@ namespace GameVanilla.Game.Common
 
                         if (tileA.GetComponent<Tile>().x != tileB.GetComponent<Tile>().x)
                         {
+                            Debug.Log("Candy moved horizontal");
                             swapDirection = SwapDirection.Horizontal;
                         }
                         else
                         {
+                            Debug.Log("Candy moved Vertical");
                             swapDirection = SwapDirection.Vertical;
                         }
 
@@ -713,10 +770,22 @@ namespace GameVanilla.Game.Common
                         case BoosterType.ColorBomb:
                             booster = new ColorBombBooster();
                             break;
+                        case BoosterType.Switch:
+                            booster = new RocketMissile();
+                            break;
                     }
-                    if (booster != null && (button.boosterType == BoosterType.ColorBomb))
+                    if (booster !=null && (button.boosterType == BoosterType.Switch))
                     {
-                        shipExplosion.SetActive(true);
+                        booster.Resolve(this, tile.gameObject);
+                        missileCheck = true;
+                      
+                        StartCoroutine(DelayedExplosion(this,tile.x, tile.y));
+                        ConsumeBooster(button);
+                        ApplyGravity();
+                    }
+                    else if (booster != null && (button.boosterType == BoosterType.ColorBomb))
+                    {
+                        //shipExplosion.SetActive(true);
                         StartCoroutine(ShipWait(booster, tile, button));
                     }
                     else if(booster != null && button.boosterType == BoosterType.Bomb)
@@ -750,10 +819,56 @@ namespace GameVanilla.Game.Common
             yield return new WaitForSeconds(3.0f);
             shipExplosion.SetActive(false);
         }
+
+        /// <summary>
+        /// Swipes the given tile GameObject in the specified direction if it has the "Tile" tag.
+        /// </summary>
+        /// <param name="tile">The GameObject to swipe.</param>
+        /// <param name="swipeDirection">"Left" or "Up" are valid directions.</param>
+        public void SwipeTileDirection(GameObject tile, string swipeDirection)
+        {
+            if (tile == null)
+            {
+                Debug.LogWarning("Tile is null.");
+                return;
+            }
+
+            if (!tile.CompareTag("Tilte"))
+            {
+                Debug.LogWarning("GameObject is not tagged as 'Tile'.");
+                return;
+            }
+
+            Vector3 moveOffset = Vector3.zero;
+
+            switch (swipeDirection.ToLower())
+            {
+                case "left":
+                    moveOffset = Vector3.left;
+                    break;
+
+                case "up":
+                    moveOffset = Vector3.up;
+                    break;
+
+                default:
+                    Debug.LogWarning("Invalid swipe direction. Use 'Left' or 'Up'.");
+                    return;
+            }
+
+            // You can adjust the duration and distance here
+            float swipeDistance = 1f;
+            float duration = 0.25f;
+
+            Vector3 targetPosition = tile.transform.position + moveOffset * swipeDistance;
+
+            LeanTween.move(tile, targetPosition, duration).setEaseOutQuad();
+        }
+
         /// <summary>
         /// Handles the player's input when the game is in booster mode and the booster used is the switch.
         /// </summary>
-        public void HandleSwitchBoosterInput(BuyBoosterButton button)
+        public void HandleSwitchBoosterInput()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -792,7 +907,7 @@ namespace GameVanilla.Game.Common
                             selectedTileCopy.GetComponent<SpriteRenderer>().sortingOrder = 0;
                             gameScene.DisableBoosterMode();
                             HandleMatches(true);
-                            ConsumeBooster(button);
+                            //ConsumeBooster(button);
                         });
                     LeanTween.move(hit.collider.gameObject, selectedTile.transform.position, 0.25f);
 
@@ -1097,7 +1212,25 @@ namespace GameVanilla.Game.Common
             CreateSpawnParticles(tile.transform.position);
             return tile;
         }
-
+        /// <summary>
+        /// Creates a new color bomb.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the tile.</param>
+        /// <param name="y">The y-coordinate of the tile.</param>
+        /// <returns>The newly created tile.</returns>
+        public GameObject CreateRocketMissle(int x, int y)
+        {
+            var tileIdx = x + (y * level.width);
+            var tile = tilePool.rocketMissile.GetObject();
+            tile.GetComponent<Tile>().board = this;
+            tile.GetComponent<Tile>().x = x;
+            tile.GetComponent<Tile>().y = y;
+            Debug.Log("The position of the tile is" + x + " And Y" + y);
+            tile.transform.position = tilePositions[tileIdx];
+            tiles[tileIdx] = tile;
+            CreateSpawnParticles(tile.transform.position);
+            return tile;
+        }
         /// <summary>
         /// Creates a new chocolate.
         /// </summary>
@@ -1192,6 +1325,53 @@ namespace GameVanilla.Game.Common
             gameUi.UpdateGoals(gameState);
         }
 
+        /// <summary>
+        /// Destroys all tiles in the specified row.
+        /// </summary>
+        /// <param name="row">The row index to destroy.</param>
+        public void DestroyRow(int row)
+        {
+            Debug.Log("row is destroyed");
+            for (int col = 0; col < level.width; col++)
+            {
+                var tile = tiles[row * level.width + col];
+                ExplodeTileNonRecursive(tile);
+            }
+            ApplyGravityAsync();
+        }
+
+        /// <summary>
+        /// Destroys all tiles in the specified column.
+        /// </summary>
+        /// <param name="column">The column index to destroy.</param>
+        public void DestroyColumn(int column)
+        {
+            Debug.Log("Column is destroyed");
+            for (int row = 0; row < level.height; row++)
+            {
+                var tile = tiles[row * level.height + column];
+                ExplodeTileNonRecursive(tile);
+            }
+            ApplyGravityAsync();
+        }
+
+        public Vector2Int GetTilePosition(GameObject tile)
+        {
+            for (int x = 0; x < level.width; x++)
+            {
+                for (int y = 0; y < level.height; y++)
+                {
+                    if (tile== GetTile(x,y)) // Assuming tiles is a 2D array of GameObjects
+                    {
+                        return new Vector2Int(x, y);
+                    }
+                }
+            }
+            return new Vector2Int(-1, -1); // Return invalid position if not found
+        }
+
+
+        //{
         /// <summary>
         /// Explodes the specified tile non-recursively.
         /// </summary>
