@@ -78,10 +78,7 @@ namespace GameVanilla.Game.Common
                 }
                 check = false;
             }
-
             SoundManager.instance.PlaySound("ColorBomb");
         }
-
-
     }
 }

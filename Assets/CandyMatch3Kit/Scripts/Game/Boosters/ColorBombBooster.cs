@@ -21,7 +21,7 @@ namespace GameVanilla.Game.Common
 			var x = tile.GetComponent<Tile>().x;
 			var y = tile.GetComponent<Tile>().y;
 			board.ExplodeTile(tile);
-			board.CreateColorBomb(x, y);
+			board.CreateWaterColorBomb(x, y);
 		}
 	}
 }

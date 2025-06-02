@@ -127,7 +127,7 @@ namespace GameVanilla.Game.Common
 
         public GameObject orangeCar;
         public GameObject greenCar;
-        public GameObject shipExplosion;
+        public GameObject shipExplosion, missileExplosion;
         public GameObject levelSkipButton;
         private Coroutine coroutine;
         private bool check;
@@ -488,6 +488,30 @@ namespace GameVanilla.Game.Common
             }
         }
 
+
+        public bool HasDoubleVerticalMatch(GameBoard board, int x, int y)
+        {
+            // Make sure within bounds
+            if (x < 0 || x + 1 >= board.level.width || y - 1 < 0 || y >= board.level.height)
+                return false;
+
+            GameObject tileA = board.GetTile(x, y);
+            GameObject tileB = board.GetTile(x + 1, y);
+            GameObject tileC = board.GetTile(x, y - 1);
+            GameObject tileD = board.GetTile(x + 1, y - 1);
+
+            if (tileA == null || tileB == null || tileC == null || tileD == null)
+                return false;
+
+            var typeA = tileA.GetComponent<Candy>()?.color;
+            var typeB = tileB.GetComponent<Candy>()?.color;
+            var typeC = tileC.GetComponent<Candy>()?.color;
+            var typeD = tileD.GetComponent<Candy>()?.color;
+
+            return typeA == typeB && typeC == typeD && typeA == typeC;
+        }
+
+
         /// <summary>
         /// Handles the player's input.
         /// </summary>
@@ -625,9 +649,18 @@ namespace GameVanilla.Game.Common
                             });
                         LeanTween.move(hit.collider.gameObject, selectedTile.transform.position, 0.25f);
 
+
+                        // 🔍 Check for the 2x2 match pattern starting at selectedTileCopy
+                        var tileComponent = selectedTileCopy.GetComponent<Tile>();
+                        int x = tileComponent.x;
+                        int y = tileComponent.y;
+
+                        if (HasDoubleVerticalMatch(this, x, y))
+                        {
+                            Debug.Log($"2x2 Match detected at ({x}, {y}) after move!");
+                            // You can trigger effects or generate a bomb here if desired
+                        }
                         selectedTile = null;
-
-
                         PerformMove();
                         
                     }
@@ -776,16 +809,15 @@ namespace GameVanilla.Game.Common
                     }
                     if (booster !=null && (button.boosterType == BoosterType.Switch))
                     {
+                        missileExplosion.SetActive(true);
+                        StartCoroutine(MissileWait());
                         booster.Resolve(this, tile.gameObject);
-                        missileCheck = true;
-                      
-                        StartCoroutine(DelayedExplosion(this,tile.x, tile.y));
                         ConsumeBooster(button);
                         ApplyGravity();
                     }
                     else if (booster != null && (button.boosterType == BoosterType.ColorBomb))
                     {
-                        //shipExplosion.SetActive(true);
+                        shipExplosion.SetActive(true);
                         StartCoroutine(ShipWait(booster, tile, button));
                     }
                     else if(booster != null && button.boosterType == BoosterType.Bomb)
@@ -809,6 +841,11 @@ namespace GameVanilla.Game.Common
                     gameScene.DisableBoosterMode();
                 }
             }
+        }
+        IEnumerator MissileWait()
+        {
+            yield return new WaitForSeconds(5.25f);
+            missileExplosion.SetActive(false);
         }
         IEnumerator ShipWait( Booster booster, Tile tile, BuyBoosterButton button)
         {
@@ -1204,6 +1241,24 @@ namespace GameVanilla.Game.Common
         {
             var tileIdx = x + (y * level.width);
             var tile = tilePool.colorBombCandyPool.GetObject();
+            tile.GetComponent<Tile>().board = this;
+            tile.GetComponent<Tile>().x = x;
+            tile.GetComponent<Tile>().y = y;
+            tile.transform.position = tilePositions[tileIdx];
+            tiles[tileIdx] = tile;
+            CreateSpawnParticles(tile.transform.position);
+            return tile;
+        }
+        /// <summary>
+        /// Creates a new color bomb.
+        /// </summary>
+        /// <param name="x">The x-coordinate of the tile.</param>
+        /// <param name="y">The y-coordinate of the tile.</param>
+        /// <returns>The newly created tile.</returns>
+        public GameObject CreateWaterColorBomb(int x, int y)
+        {
+            var tileIdx = x + (y * level.width);
+            var tile = tilePool.waterColorBombPool.GetObject();
             tile.GetComponent<Tile>().board = this;
             tile.GetComponent<Tile>().x = x;
             tile.GetComponent<Tile>().y = y;

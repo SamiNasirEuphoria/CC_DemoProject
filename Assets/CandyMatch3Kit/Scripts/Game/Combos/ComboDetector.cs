@@ -50,7 +50,14 @@ namespace GameVanilla.Game.Common
             {
                 return new ColorBombWithCandyCombo {tileA = tileA, tileB = tileB};
             }
-            
+            // Color bomb + Normal candy.
+            if ((tileA.GetComponent<WaterColorBomb>() != null &&
+                 tileB.GetComponent<Candy>() != null) ||
+                (tileA.GetComponent<Candy>() != null &&
+                 tileB.GetComponent<WaterColorBomb>() != null))
+            {
+                return new WaterColorBombWithCandyCombo { tileA = tileA, tileB = tileB };
+            }
             // Wrapped candy + Wrapped candy.
             if ((tileA.GetComponent<WrappedCandy>() != null &&
                  tileB.GetComponent<WrappedCandy>() != null))

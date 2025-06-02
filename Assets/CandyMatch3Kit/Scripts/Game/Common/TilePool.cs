@@ -47,6 +47,7 @@ namespace GameVanilla.Game.Common
         public ObjectPool yellowWrappedCandyPool;
 
         public ObjectPool colorBombCandyPool;
+        public ObjectPool waterColorBombPool;
         public ObjectPool rocketMissile;
 
         public ObjectPool honeyPool;
