@@ -196,7 +196,11 @@ namespace GameVanilla.Game.Scenes
                 }
                 if (level.id == nextLevel)
                 {
+                    //JustForTesting
+                    //PlayerPrefs.SetInt("next_level", level.id + 54);
+                    //
                     PlayerPrefs.SetInt("next_level", level.id + 1);
+                    Debug.Log("Next level which is going to unlocked is" + level.id + 1);
                     PuzzleMatchManager.instance.unlockedNextLevel = true;
                 }
                 else

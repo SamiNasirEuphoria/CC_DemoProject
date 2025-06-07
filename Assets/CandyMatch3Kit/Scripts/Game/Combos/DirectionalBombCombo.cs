@@ -10,7 +10,7 @@ namespace GameVanilla.Game.Common
     /// </summary>
     public class DirectionalBombCombo : Combo
     {
-        public static bool check;
+        public static bool check=false;
         public override void Resolve(GameBoard board, List<GameObject> tiles, FxPool fxPool)
         {
             if (tiles == null || tiles.Count < 2)

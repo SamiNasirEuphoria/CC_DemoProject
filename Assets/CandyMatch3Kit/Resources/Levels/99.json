@@ -1,5 +1,5 @@
 {
-    "id": 101,
+    "id": 99,
     "width": 6,
     "height": 7,
     "tiles": [
@@ -99,8 +99,13 @@
             "$type": "GameVanilla.Game.Common.CandyTile"
         },
         {
-            "type": "RandomCandy",
+            "type": "BlueCandy",
             "elementType": "None",
+            "$type": "GameVanilla.Game.Common.CandyTile"
+        },
+        {
+            "type": "RandomCandy",
+            "elementType": "Honey",
             "$type": "GameVanilla.Game.Common.CandyTile"
         },
         {
@@ -135,12 +140,7 @@
         },
         {
             "type": "RandomCandy",
-            "elementType": "None",
-            "$type": "GameVanilla.Game.Common.CandyTile"
-        },
-        {
-            "type": "RandomCandy",
-            "elementType": "None",
+            "elementType": "Honey",
             "$type": "GameVanilla.Game.Common.CandyTile"
         },
         {

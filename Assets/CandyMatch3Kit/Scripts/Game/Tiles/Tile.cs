@@ -14,8 +14,8 @@ namespace GameVanilla.Game.Common
 	public abstract class Tile : MonoBehaviour
 	{
 		[HideInInspector] public GameBoard board;
-		[HideInInspector] public int x;
-		[HideInInspector] public int y;
+		 public int x;
+		 public int y;
 
 		public bool destructable;
 

@@ -124,7 +124,7 @@ namespace GameVanilla.Game.Scenes
                 var sequence = LeanTween.sequence();
                 sequence.append(0.5f);
                 sequence.append(LeanTween.move(avatar, targetPos, 5.0f));
-                sequence.append(() => avatar.GetComponent<LevelAvatar>().StartFloatingAnimation());
+                //sequence.append(() => avatar.GetComponent<LevelAvatar>().StartFloatingAnimation());
                 sequence.append(() => scrollRect.vertical = true);
             }
             else

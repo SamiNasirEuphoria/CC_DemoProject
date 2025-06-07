@@ -339,7 +339,7 @@ namespace GameVanilla.Game.Common
                     {
                         var ice = tilePool.icePool.GetObject();
                         ice.transform.position = tilePositions[i + (j * level.width)];
-                        ice.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                        ice.GetComponent<SpriteRenderer>().sortingOrder = -1;
                         ices.Add(ice);
                         honeys.Add(null);
                         syrups1.Add(null);
@@ -496,9 +496,9 @@ namespace GameVanilla.Game.Common
                 return false;
 
             GameObject tileA = board.GetTile(x, y);
-            GameObject tileB = board.GetTile(x + 1, y);
-            GameObject tileC = board.GetTile(x, y - 1);
-            GameObject tileD = board.GetTile(x + 1, y - 1);
+            GameObject tileB = board.GetTile(x + 2, y);
+            GameObject tileC = board.GetTile(x, y - 2);
+            GameObject tileD = board.GetTile(x + 2, y - 2);
 
             if (tileA == null || tileB == null || tileC == null || tileD == null)
                 return false;
@@ -560,8 +560,17 @@ namespace GameVanilla.Game.Common
                     selectedTile = hit.collider.gameObject;
                   
                     selectedTile.GetComponent<Animator>().SetTrigger("Pressed");
-                }
+                    var tileComponent = selectedTile.GetComponent<Tile>();
+                    int x = tileComponent.x;
+                    int y = tileComponent.y;
+                    if (Has2x2BlockMatch(x,y))
+                    {
+                        Debug.Log("Pistol");
+                    }
 
+                    Debug.Log($"Moved tile is at the position{x} and {y}");
+                }
+               
                 //handle missile rocket
                 //if (missileCheck && hit.collider != null && hit.collider.gameObject.CompareTag("Rocket"))
                 //{
@@ -615,7 +624,7 @@ namespace GameVanilla.Game.Common
                     if (combo != null)
                     {
                         var selectedTileCopy = selectedTile;
-                        selectedTile.GetComponent<SpriteRenderer>().sortingOrder = 1;
+                        selectedTile.GetComponent<SpriteRenderer>().sortingOrder = 0;
                         currentlySwapping = true;
                         
 
@@ -660,6 +669,8 @@ namespace GameVanilla.Game.Common
                             Debug.Log($"2x2 Match detected at ({x}, {y}) after move!");
                             // You can trigger effects or generate a bomb here if desired
                         }
+                       
+                        
                         selectedTile = null;
                         PerformMove();
                         
@@ -751,6 +762,7 @@ namespace GameVanilla.Game.Common
                                 });
                                 LeanTween.move(hitTileCopy, hitTilePos, 0.2f);
                             });
+
                         }
                         selectedTile = null;
                         SoundManager.instance.PlaySound("Error");
@@ -758,6 +770,91 @@ namespace GameVanilla.Game.Common
                 }
             }
         }
+        public bool Has2x2BlockMatch(int x, int y)
+        {
+            // Check all 4 square patterns around (x, y)
+            if (CheckSquareMatch(x, y) ||           // Top-left corner
+                   CheckSquareMatch(x - 1, y) ||       // Top-right corner
+                   CheckSquareMatch(x, y - 1) || CheckSquareMatch(x - 1, y - 1))
+            {
+                return true;
+            }
+            else {
+
+                if (CheckSquareMatch(x, y) ||           // Top-left corner
+                   CheckSquareMatch(x + 1, y) ||       // Top-right corner
+                   CheckSquareMatch(x, y + 1) || CheckSquareMatch(x + 1, y + 1))
+                {
+                    return true;
+                }
+                else return false;
+                }
+                    // Bottom-right corner
+        }
+        private bool CheckSquareMatch(int x, int y)
+        {
+            // Must have (x, y), (x+1, y), (x, y+1), (x+1, y+1) in bounds
+            if (x < 0 || y < 0 || x + 1 >= level.width || y + 1 >= level.height)
+                return false;
+
+            var tileA = GetTile(x, y);
+            var tileB = GetTile(x + 1, y);
+            var tileC = GetTile(x, y + 1);
+            var tileD = GetTile(x + 1, y + 1);
+
+            if (tileA == null || tileB == null || tileC == null || tileD == null)
+                return false;
+
+            var candyA = tileA.GetComponent<Candy>();
+            var candyB = tileB.GetComponent<Candy>();
+            var candyC = tileC.GetComponent<Candy>();
+            var candyD = tileD.GetComponent<Candy>();
+
+            if (candyA == null || candyB == null || candyC == null || candyD == null)
+                return false;
+
+            var color = candyA.color;
+
+            return candyB.color == color &&
+                   candyC.color == color &&
+                   candyD.color == color;
+        }
+
+        //public bool Has2x2BlockMatch(int x, int y)
+        //{
+        //    if (x >= level.width - 1 || y >= level.height - 1)
+        //        return false;
+
+        //    var tileA = GetTile(x, y);
+        //    var tileB = GetTile(x + 2, y);
+        //    var tileC = GetTile(x, y + 2);
+        //    var tileD = GetTile(x + 2, y + 2);
+
+        //    // Ensure none of the tiles are null
+        //    if (tileA == null || tileB == null || tileC == null || tileD == null)
+        //    {
+        //         tileA = GetTile(x, y);
+        //         tileB = GetTile(x - 2, y);
+        //         tileC = GetTile(x, y - 2);
+        //         tileD = GetTile(x - 2, y - 2);
+        //    }
+        //        return false;
+
+        //    // Ensure all tiles have the Candy component
+        //    var candyA = tileA.GetComponent<Candy>();
+        //    var candyB = tileB.GetComponent<Candy>();
+        //    var candyC = tileC.GetComponent<Candy>();
+        //    var candyD = tileD.GetComponent<Candy>();
+
+        //    if (candyA == null || candyB == null || candyC == null || candyD == null)
+        //        return false;
+
+        //    var color = candyA.color;
+
+        //    return candyB.color == color &&
+        //           candyC.color == color &&
+        //           candyD.color == color;
+        //}
         IEnumerator Explode(Booster booster, Tile tile)
         {
             yield return new WaitWhile(() => Chopper.Instance.check);
@@ -809,11 +906,12 @@ namespace GameVanilla.Game.Common
                     }
                     if (booster !=null && (button.boosterType == BoosterType.Switch))
                     {
-                        missileExplosion.SetActive(true);
-                        StartCoroutine(MissileWait());
+                       
                         booster.Resolve(this, tile.gameObject);
                         ConsumeBooster(button);
                         ApplyGravity();
+                       
+                        StartCoroutine(MissileWait());
                     }
                     else if (booster != null && (button.boosterType == BoosterType.ColorBomb))
                     {
@@ -844,6 +942,7 @@ namespace GameVanilla.Game.Common
         }
         IEnumerator MissileWait()
         {
+            missileExplosion.SetActive(true);
             yield return new WaitForSeconds(5.25f);
             missileExplosion.SetActive(false);
         }
