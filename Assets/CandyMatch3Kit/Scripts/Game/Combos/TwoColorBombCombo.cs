@@ -23,6 +23,54 @@ namespace GameVanilla.Game.Common
         /// <param name="fxPool">The pool to use for the visual effects.</param>
         public override void Resolve(GameBoard board, List<GameObject> tiles, FxPool fxPool)
         {
+
+            if (tiles == null || tiles.Count == 0)
+                return;
+
+            // Use the first tile in the list as the center tile
+            var centerTile = tiles[0];
+            var x = centerTile.GetComponent<Tile>().x;
+            var y = centerTile.GetComponent<Tile>().y;
+
+            // Clear the input tiles list and repopulate it
+            tiles.Clear();
+
+            // Add all surrounding tiles (cross + diagonals)
+            tiles.Add(board.GetTile(x - 1, y - 1));
+            tiles.Add(board.GetTile(x - 2, y - 2));
+            tiles.Add(board.GetTile(x - 3, y - 3));
+
+            tiles.Add(board.GetTile(x, y - 1));
+            tiles.Add(board.GetTile(x, y - 2));
+            tiles.Add(board.GetTile(x, y - 3));
+
+            tiles.Add(board.GetTile(x + 1, y - 1));
+            tiles.Add(board.GetTile(x + 2, y - 2));
+            tiles.Add(board.GetTile(x + 3, y - 3));
+
+            tiles.Add(board.GetTile(x - 1, y));
+            tiles.Add(board.GetTile(x - 2, y));
+            tiles.Add(board.GetTile(x - 3, y));
+
+            tiles.Add(centerTile); // center
+
+            tiles.Add(board.GetTile(x + 1, y));
+            tiles.Add(board.GetTile(x + 2, y));
+            tiles.Add(board.GetTile(x + 3, y));
+
+            tiles.Add(board.GetTile(x - 1, y + 1));
+            tiles.Add(board.GetTile(x - 2, y + 2));
+            tiles.Add(board.GetTile(x - 3, y + 3));
+
+            tiles.Add(board.GetTile(x, y + 1));
+            tiles.Add(board.GetTile(x, y + 2));
+            tiles.Add(board.GetTile(x, y + 3));
+
+            tiles.Add(board.GetTile(x + 1, y + 1));
+            tiles.Add(board.GetTile(x + 2, y + 2));
+            tiles.Add(board.GetTile(x + 3, y + 3));
+
+
             foreach (var tile in tiles)
             {
                 if (tile != null && (tile.GetComponent<Candy>() != null || tile.GetComponent<ColorBomb>() != null))

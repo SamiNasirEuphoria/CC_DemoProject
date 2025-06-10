@@ -30,7 +30,7 @@ public class Implementation : MonoBehaviour
     /// <summary>
     /// Show banner, assigned from inspector
     /// </summary>
-    public void ShawBanner()
+    public void ShowBanner()
     {
         Advertisements.Instance.ShowBanner(BannerPosition.BOTTOM);
     }

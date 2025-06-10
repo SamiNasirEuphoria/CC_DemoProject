@@ -932,7 +932,6 @@ namespace GameVanilla.Game.Common
                         ConsumeBooster(button);
                     }
                     gameScene.DisableBoosterMode();
-
                 }
                 else
                 {
@@ -2652,7 +2651,6 @@ namespace GameVanilla.Game.Common
 
             suggestedMatch.Clear();
         }
-
         /// <summary>
         /// Awards the special candies at the end of the level.
         /// </summary>

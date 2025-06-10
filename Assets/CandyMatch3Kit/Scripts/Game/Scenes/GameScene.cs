@@ -42,7 +42,11 @@ namespace GameVanilla.Game.Scenes
 		private int ingameBoosterBgTweenId;
 
         public float bonusAlertWait, bonusDuration;
-        public GameObject bonusAlert, bonusEndAlert;
+        public GameObject bonusAlert, bonusLooseAlert,bonusWonAlert;
+        public Text timer;
+        public GameObject avatar;
+        private Coroutine bonusCoroutine;
+        [HideInInspector] public static bool bonusCheck;
 	    /// <summary>
 	    /// Unity's Awake method.
 	    /// </summary>
@@ -61,32 +65,55 @@ namespace GameVanilla.Game.Scenes
 		private void Start()
 		{
 			gameBoard.LoadLevel();
-
 			level = gameBoard.level;
             OpenPopup<LevelGoalsPopup>("Popups/LevelGoalsPopup", popup => popup.SetGoals(level.goals));
-
-            if (PuzzleMatchManager.instance.lastSelectedLevel%10 ==0)
-               
-            StartCoroutine(Wait());
-            else
-                Debug.Log("Ordinary Level");
+            //if this is a bonus Level
+            if (PuzzleMatchManager.instance.lastSelectedLevel%10 == 0)
+            {
+                StartCoroutine(BonusAlertPopUpActive());
+            }
 		}
-
         public void BonusTimerOn()
         {
-            StartCoroutine(CallForBonusEnd());
+            timer.gameObject.SetActive(true);
+            avatar.SetActive(false);
+            Timer();
+            bonusCoroutine = StartCoroutine(BonusAltertPopUpInactive());
         }
-        
-
-        IEnumerator Wait()
+        IEnumerator BonusAlertPopUpActive()
         {
             yield return new WaitForSeconds(bonusAlertWait);
             bonusAlert.SetActive(true);
         }
-        IEnumerator CallForBonusEnd()
+        IEnumerator BonusAltertPopUpInactive()
         {
             yield return new WaitForSeconds(bonusDuration);
-            bonusEndAlert.SetActive(true);
+            timer.gameObject.SetActive(false);
+            avatar.SetActive(true);
+            bonusLooseAlert.SetActive(true);
+        }
+        public void WonBonusDollars()
+        {
+            StopCoroutine(bonusCoroutine);
+            timer.gameObject.SetActive(false);
+            avatar.SetActive(true);
+            bonusWonAlert.SetActive(true);
+        }
+        public void Timer()
+        {
+            StartCoroutine(ClockCycle());
+        }
+        IEnumerator ClockCycle()
+        {
+            var timeLimit = bonusDuration;
+
+            while (timeLimit > 0)
+            {
+                yield return new WaitForSecondsRealtime(1.0f);
+                timeLimit -= 1;
+                timer.text = timeLimit.ToString();
+            }
+            timer.text = "Time Up";
         }
         /// <summary>
         /// Unity's Update method.
@@ -135,6 +162,7 @@ namespace GameVanilla.Game.Scenes
 	    /// </summary>
 		public void EndGame()
 		{
+            //cal here for won bonus popup
 			gameFinished = true;
 		    gameBoard.EndGame();
 		}
@@ -187,6 +215,17 @@ namespace GameVanilla.Game.Scenes
 
             if (goalsComplete)
             {
+                //Alert active 5 ollar won
+                if (PuzzleMatchManager.instance.lastSelectedLevel % 10 == 0)
+                {
+                    bonusCheck = true;
+                    var amount = PlayerPrefs.GetInt("Dollar");
+                    amount += 5;
+                    PlayerPrefs.SetInt("Dollar", amount);
+                    WonBonusDollars();
+                }
+
+
                 EndGame();
 
                 var nextLevel = PlayerPrefs.GetInt("next_level");
@@ -225,7 +264,7 @@ namespace GameVanilla.Game.Scenes
                 }
             }
         }
-
+        
         /// <summary>
         /// Opens the win popup.
         /// </summary>
