@@ -64,6 +64,7 @@ namespace GameVanilla.Game.Scenes
 	    /// </summary>
 		private void Start()
 		{
+            bonusCheck = true;
 			gameBoard.LoadLevel();
 			level = gameBoard.level;
             OpenPopup<LevelGoalsPopup>("Popups/LevelGoalsPopup", popup => popup.SetGoals(level.goals));
@@ -91,6 +92,7 @@ namespace GameVanilla.Game.Scenes
             timer.gameObject.SetActive(false);
             avatar.SetActive(true);
             bonusLooseAlert.SetActive(true);
+            bonusCheck = false;
         }
         public void WonBonusDollars()
         {
@@ -218,11 +220,14 @@ namespace GameVanilla.Game.Scenes
                 //Alert active 5 ollar won
                 if (PuzzleMatchManager.instance.lastSelectedLevel % 10 == 0)
                 {
-                    bonusCheck = true;
-                    var amount = PlayerPrefs.GetInt("Dollar");
-                    amount += 5;
-                    PlayerPrefs.SetInt("Dollar", amount);
-                    WonBonusDollars();
+                    if (bonusCheck)
+                    {
+                        var amount = PlayerPrefs.GetInt("Dollar");
+                        amount += 5;
+                        PlayerPrefs.SetInt("Dollar", amount);
+                        WonBonusDollars();
+                    }
+                   
                 }
 
 

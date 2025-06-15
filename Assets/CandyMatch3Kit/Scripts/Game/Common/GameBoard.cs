@@ -765,6 +765,7 @@ namespace GameVanilla.Game.Common
 
                         }
                         selectedTile = null;
+                        Debug.Log("It did nothing");
                         SoundManager.instance.PlaySound("Error");
                     }
                 }
