@@ -46,7 +46,8 @@ namespace GameVanilla.Game.Common
             }
 
             // Fix: correctly detect swipe direction
-            bool isHorizontal = otherPos.y == dirBombPos.y && Mathf.Abs(otherPos.x - dirBombPos.x) == 1;
+             bool isHorizontal = Mathf.Abs(dirBombPos.x - otherPos.x) > Mathf.Abs(dirBombPos.y - otherPos.y);
+
 
             if (!check)
             {

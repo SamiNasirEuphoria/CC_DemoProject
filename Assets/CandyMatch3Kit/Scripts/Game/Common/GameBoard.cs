@@ -912,7 +912,7 @@ namespace GameVanilla.Game.Common
                         ConsumeBooster(button);
                         ApplyGravity();
                        
-                        StartCoroutine(MissileWait());
+                        //StartCoroutine(MissileWait());
                     }
                     else if (booster != null && (button.boosterType == BoosterType.ColorBomb))
                     {
@@ -2344,7 +2344,8 @@ namespace GameVanilla.Game.Common
                             var sourcePos = tilePositions[i];
                             var targetPos = tilePositions[tileIndex];
                             var pos = sourcePos;
-                            pos.y = tilePositions[i].y + (numEmpties * (tileH));
+                            //pos.y = tilePositions[i].y + (numEmpties * (tileH));
+                            pos.y = 4f;
                             --numEmpties;
                             tile.transform.position = pos;
                             var tween = LeanTween.move(tile,

@@ -19,7 +19,8 @@ namespace GameVanilla.Game.Common
         {
             // Color bomb + Color bomb.
             if (tileA.GetComponent<ColorBomb>() != null &&
-                tileB.GetComponent<ColorBomb>() != null)
+                tileB.GetComponent<ColorBomb>() != null ||
+                    (tileB.GetComponent<ColorBomb>() != null && tileA.GetComponent<ColorBomb>() != null))
             {
                 return new TwoColorBombCombo {tileA = tileA, tileB = tileB};
             }
