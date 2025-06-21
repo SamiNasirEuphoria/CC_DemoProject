@@ -56,14 +56,15 @@ namespace GameVanilla.Game.UI
 			var numBoosters = PlayerPrefs.GetInt(playerPrefsKey);
 			if (numBoosters == 0)
 			{
-				if (PuzzleMatchManager.instance.lastSelectedLevel % 10 == 0)
-				{
-					gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopupIAP", popup => { popup.SetBooster(this); });
-				}
-                else
-                {
-					gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopup", popup => { popup.SetBooster(this); });
-				}
+				gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopup", popup => { popup.SetBooster(this); });
+				//if (PuzzleMatchManager.instance.lastSelectedLevel % 10 == 0)
+				//{
+				//	gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopupIAP", popup => { popup.SetBooster(this); });
+				//}
+    //            else
+    //            {
+				//	gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopup", popup => { popup.SetBooster(this); });
+				//}
 			}
 			else
 			{
