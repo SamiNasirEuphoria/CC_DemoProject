@@ -32,6 +32,7 @@ namespace GameVanilla.Game.Scenes
 
 
         public static bool check;
+        public static int LvlNumber;
         /// <summary>
         /// Unity's Awake method.
         /// </summary>
