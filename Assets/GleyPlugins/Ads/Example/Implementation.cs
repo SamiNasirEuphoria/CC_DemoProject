@@ -70,9 +70,11 @@ public class Implementation : MonoBehaviour
     {
         if (completed)
         {
-            
+            int coinAmount = PlayerPrefs.GetInt("num_coins");
+            coinAmount += 50;
+            PlayerPrefs.SetInt("num_coins", coinAmount);
         }
 
-        
+
     }
 }

@@ -101,7 +101,7 @@ namespace GameVanilla.Core
 
         public void ShowAd()
         {
-            Implementation.Instance.ShowInterstitial();
+           // Implementation.Instance.ShowInterstitial();
         }
     }
 }

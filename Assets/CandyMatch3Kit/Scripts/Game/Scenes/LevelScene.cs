@@ -133,7 +133,7 @@ namespace GameVanilla.Game.Scenes
                 avatar.GetComponent<LevelAvatar>().StartFloatingAnimation();
                 scrollRect.vertical = true;
             }
-
+            Implementation.Instance.ShowInterstitial();
             //CallForBonusLevel(currentButton.numLevel);
 
         }

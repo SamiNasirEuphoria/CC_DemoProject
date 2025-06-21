@@ -73,6 +73,7 @@ namespace GameVanilla.Game.Scenes
             {
                 StartCoroutine(BonusAlertPopUpActive());
             }
+            Implementation.Instance.ShowInterstitial();
 		}
         public void BonusTimerOn()
         {
