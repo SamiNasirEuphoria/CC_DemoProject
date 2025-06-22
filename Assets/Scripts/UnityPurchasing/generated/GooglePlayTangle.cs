@@ -4,8 +4,8 @@ namespace UnityEngine.Purchasing.Security {
     public class GooglePlayTangle
     {
         private static byte[] data = System.Convert.FromBase64String("");
-        private static int[] order = new int[] {  };
-        private static int key = 0;
+        private static int[] order = new int[] { 0 };
+        private static int key = 55;
 
         public static readonly bool IsPopulated = false;
 

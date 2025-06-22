@@ -10,6 +10,7 @@ using GameVanilla.Core;
 using GameVanilla.Game.Common;
 using GameVanilla.Game.Scenes;
 using GameVanilla.Game.UI;
+using UnityEngine.Purchasing;
 
 namespace GameVanilla.Game.Popups
 {
@@ -51,6 +52,17 @@ namespace GameVanilla.Game.Popups
 	    [SerializeField]
 	    private ParticleSystem coinParticles;
 
+		[SerializeField]
+		private GameObject CoinPurchaseButton;
+
+		[SerializeField]
+		private GameObject IAPPurchaseButton;
+
+		public CodelessIAPButton IAPButton;
+		public Text IAPprice;
+
+		public string[] IAPIds;
+
 	    private BuyBoosterButton buyButton;
 
 	    /// <summary>
@@ -84,11 +96,24 @@ namespace GameVanilla.Game.Popups
 		    numCoinsText.text = PlayerPrefs.GetInt("num_coins").ToString();
 	    }
 
-	    /// <summary>
-	    /// Sets the booster button associated to this popup.
-	    /// </summary>
-	    /// <param name="button">The booster button.</param>
-	    public void SetBooster(BuyBoosterButton button)
+        private void OnEnable()
+        {
+			if (PuzzleMatchManager.instance.lastSelectedLevel % 10 == 0)
+			{
+				CoinPurchaseButton.SetActive(false);
+				IAPPurchaseButton.SetActive(true);
+			}
+			else {
+                CoinPurchaseButton.SetActive(true);
+                IAPPurchaseButton.SetActive(false);
+            }
+        }
+
+        /// <summary>
+        /// Sets the booster button associated to this popup.
+        /// </summary>
+        /// <param name="button">The booster button.</param>
+        public void SetBooster(BuyBoosterButton button)
 		{
 			buyButton = button;
 			switch (button.boosterType)
@@ -97,25 +122,45 @@ namespace GameVanilla.Game.Popups
 					boosterImage.sprite = lollipopSprite;
 					boosterNameText.text = "Giant Tank";
 					boosterDescriptionText.text = "Destroy all candies around on the board.";
+					if(IAPButton)
+					{
+						IAPprice.text = "1.5$";
+						IAPButton.productId = IAPIds[0];
+					}
 					break;
 
 				case BoosterType.Bomb:
 					boosterImage.sprite = bombSprite;
 					boosterNameText.text = "Helicopter Bomb";
 					boosterDescriptionText.text = "Destroy all the adjacent candies.";
-					break;
+                    if (IAPButton)
+                    {
+						IAPprice.text = "1.2$";
+                        IAPButton.productId = IAPIds[1];
+                    }
+                    break;
 
 				case BoosterType.Switch:
 					boosterImage.sprite = switchSprite;
 					boosterNameText.text = "Army Missile";
 					boosterDescriptionText.text = "Destroy an entire row or column";
-					break;
+                    if (IAPButton)
+                    {
+						IAPprice.text = "1$";
+						IAPButton.productId = IAPIds[2];
+                    }
+                    break;
 
 				case BoosterType.ColorBomb:
 					boosterImage.sprite = colorBombSprite;
 					boosterNameText.text = "Fighter Ship";
 					boosterDescriptionText.text = "Destroy all the candies of the same random color.";
-					break;
+                    if (IAPButton)
+                    {
+						IAPprice.text = "0.9$";
+						IAPButton.productId = IAPIds[3];
+                    }
+                    break;
 			}
 
 			boosterImage.SetNativeSize();

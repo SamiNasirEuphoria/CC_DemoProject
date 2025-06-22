@@ -153,6 +153,7 @@ namespace GameVanilla.Game.UI
                         {
                             popup.LoadLevelData(numLevel);
                         });
+                        LevelScene.LvlNumber = numLives;
                     }
                 }
                 else

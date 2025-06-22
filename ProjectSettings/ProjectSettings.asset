@@ -947,7 +947,7 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
-    Purchasing: 0
+    Purchasing: 1
     UNet: 1
   luminIcon:
     m_Name: 
@@ -970,11 +970,11 @@ PlayerSettings:
   captureStartupLogs: {}
   activeInputHandler: 0
   windowsGamepadBackendHint: 0
-  cloudProjectId: 
+  cloudProjectId: 8b828250-627c-42df-97f5-bb1377184bbb
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
-  projectName: 
-  organizationId: 
+  projectName: CandyCrushQueenSaver
+  organizationId: gamegenie-as-publisher
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   hmiLoadingImage: {fileID: 0}
