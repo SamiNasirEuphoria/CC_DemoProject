@@ -99,6 +99,7 @@ namespace GameVanilla.Core
             blockInput = false;
         }
 
+
         public void ShowAd()
         {
            // Implementation.Instance.ShowInterstitial();
