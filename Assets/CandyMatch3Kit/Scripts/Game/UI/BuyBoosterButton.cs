@@ -40,6 +40,7 @@ namespace GameVanilla.Game.UI
 			Assert.IsNotNull(amountGroup);
 			Assert.IsNotNull(moreGroup);
 			Assert.IsNotNull(amountText);
+
 		}
 
 		/// <summary>
@@ -57,14 +58,6 @@ namespace GameVanilla.Game.UI
 			if (numBoosters == 0)
 			{
 				gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopup", popup => { popup.SetBooster(this); });
-				//if (PuzzleMatchManager.instance.lastSelectedLevel % 10 == 0)
-				//{
-				//	gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopupIAP", popup => { popup.SetBooster(this); });
-				//}
-    //            else
-    //            {
-				//	gameScene.OpenPopup<BuyBoostersPopup>("Popups/BuyBoostersPopup", popup => { popup.SetBooster(this); });
-				//}
 			}
 			else
 			{
