@@ -59,6 +59,7 @@ namespace GameVanilla.Game.Popups
 		private GameObject IAPPurchaseButton;
 
 		public CodelessIAPButton IAPButton;
+		public Text IAPprice;
 
 		public string[] IAPIds;
 
@@ -123,6 +124,7 @@ namespace GameVanilla.Game.Popups
 					boosterDescriptionText.text = "Destroy all candies around on the board.";
 					if(IAPButton)
 					{
+						IAPprice.text = "1.5$";
 						IAPButton.productId = IAPIds[0];
 					}
 					break;
@@ -133,6 +135,7 @@ namespace GameVanilla.Game.Popups
 					boosterDescriptionText.text = "Destroy all the adjacent candies.";
                     if (IAPButton)
                     {
+						IAPprice.text = "1.2$";
                         IAPButton.productId = IAPIds[1];
                     }
                     break;
@@ -143,7 +146,8 @@ namespace GameVanilla.Game.Popups
 					boosterDescriptionText.text = "Destroy an entire row or column";
                     if (IAPButton)
                     {
-                        IAPButton.productId = IAPIds[2];
+						IAPprice.text = "1$";
+						IAPButton.productId = IAPIds[2];
                     }
                     break;
 
@@ -153,7 +157,8 @@ namespace GameVanilla.Game.Popups
 					boosterDescriptionText.text = "Destroy all the candies of the same random color.";
                     if (IAPButton)
                     {
-                        IAPButton.productId = IAPIds[3];
+						IAPprice.text = "0.9$";
+						IAPButton.productId = IAPIds[3];
                     }
                     break;
 			}

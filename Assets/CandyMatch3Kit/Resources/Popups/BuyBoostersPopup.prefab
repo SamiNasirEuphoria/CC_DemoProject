@@ -11106,7 +11106,8 @@ MonoBehaviour:
   coinParticles: {fileID: 198171109098505644}
   CoinPurchaseButton: {fileID: 1885624597445210}
   IAPPurchaseButton: {fileID: 6616920450619018895}
-  IAPButton: {fileID: 0}
+  IAPButton: {fileID: 738075422340770230}
+  IAPprice: {fileID: 7575628822893997907}
   IAPIds:
   - candycrushqueensaver.buytankspecial
   - candycrushqueensaver.buyHelicopterspecial
