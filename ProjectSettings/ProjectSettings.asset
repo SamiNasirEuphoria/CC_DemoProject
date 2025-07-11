@@ -13,7 +13,7 @@ PlayerSettings:
   useOnDemandResources: 0
   accelerometerFrequency: 60
   companyName: AI private limited
-  productName: Queen's Jewel Match
+  productName: Candy Crush Queen Savings
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
@@ -40,7 +40,7 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
-  - logo: {fileID: 957538351, guid: 98b01904bc6024a6fab6cd7d891be688, type: 3}
+  - logo: {fileID: 21300000, guid: 0ab72c3a091c44a17a352c59cbada8b6, type: 3}
     duration: 2.35
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
@@ -142,7 +142,7 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
-  bundleVersion: 2.0
+  bundleVersion: 2.1
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -165,7 +165,7 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   androidMinAspectRatio: 1
   applicationIdentifier:
-    Android: com.AIprivatelimited.QueensJewelMatch
+    Android: com.AIprivatelimited.CandyCrushQueenSavings
     Standalone: com.AI-private-limited.Candy-Crush-Queen-Savings
   buildNumber:
     Standalone: 0
@@ -173,9 +173,9 @@ PlayerSettings:
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
-  AndroidBundleVersionCode: 2
-  AndroidMinSdkVersion: 26
-  AndroidTargetSdkVersion: 35
+  AndroidBundleVersionCode: 3
+  AndroidMinSdkVersion: 28
+  AndroidTargetSdkVersion: 34
   AndroidPreferredInstallLocation: 1
   aotOptions: 
   stripEngineCode: 1
@@ -293,7 +293,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: ceb672b73672e4b9f9aac3e8e80302ae, type: 3}
+      m_Icon: {fileID: 2800000, guid: 0ab72c3a091c44a17a352c59cbada8b6, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
