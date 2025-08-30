@@ -12,8 +12,13 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
+<<<<<<< Updated upstream
   companyName: AI private limited
   productName: Smart Queen
+=======
+  companyName: default
+  productName: The Superb 10
+>>>>>>> Stashed changes
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
@@ -40,7 +45,11 @@ PlayerSettings:
     width: 1
     height: 1
   m_SplashScreenLogos:
+<<<<<<< Updated upstream
   - logo: {fileID: 21300000, guid: 98b01904bc6024a6fab6cd7d891be688, type: 3}
+=======
+  - logo: {fileID: 21300000, guid: d7e35f9670524458c870f64fbb3605eb, type: 3}
+>>>>>>> Stashed changes
     duration: 2.35
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
@@ -142,7 +151,11 @@ PlayerSettings:
   loadStoreDebugModeEnabled: 0
   visionOSBundleVersion: 1.0
   tvOSBundleVersion: 1.0
+<<<<<<< Updated upstream
   bundleVersion: 3.0
+=======
+  bundleVersion: 1.0
+>>>>>>> Stashed changes
   preloadedAssets: []
   metroInputSource: 0
   wsaTransparentSwapchain: 0
@@ -165,16 +178,25 @@ PlayerSettings:
   androidMaxAspectRatio: 2.1
   androidMinAspectRatio: 1
   applicationIdentifier:
+<<<<<<< Updated upstream
     Android: com.AIprivatelimited.CandyCrushQueenSavings
     Standalone: com.AI-private-limited.Candy-Crush-Queen-Savings
+=======
+    Android: com.default.TheSuperb10
+>>>>>>> Stashed changes
   buildNumber:
     Standalone: 0
     VisionOS: 0
     iPhone: 0
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
+<<<<<<< Updated upstream
   AndroidBundleVersionCode: 5
   AndroidMinSdkVersion: 28
+=======
+  AndroidBundleVersionCode: 1
+  AndroidMinSdkVersion: 23
+>>>>>>> Stashed changes
   AndroidTargetSdkVersion: 35
   AndroidPreferredInstallLocation: 1
   aotOptions: 
@@ -267,8 +289,13 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
+<<<<<<< Updated upstream
   AndroidKeystoreName: '{inproject}: Assets/user.keystore'
   AndroidKeyaliasName: candy
+=======
+  AndroidKeystoreName: '{dedicated}: Downloads/Keystore.keystore'
+  AndroidKeyaliasName: keystore
+>>>>>>> Stashed changes
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
   AndroidBuildApkPerCpuArchitecture: 0
@@ -293,7 +320,11 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
+<<<<<<< Updated upstream
       m_Icon: {fileID: 2800000, guid: 0ab72c3a091c44a17a352c59cbada8b6, type: 3}
+=======
+      m_Icon: {fileID: 2800000, guid: a6b17a49512274c66879deae2ad68e8e, type: 3}
+>>>>>>> Stashed changes
       m_Width: 128
       m_Height: 128
       m_Kind: 0

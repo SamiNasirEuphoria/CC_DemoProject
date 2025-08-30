@@ -323,7 +323,7 @@
         }
     ],
     "limitType": "Time",
-    "limit": 1,
+    "limit": 100,
     "goals": [
         {
             "score": 3500,
