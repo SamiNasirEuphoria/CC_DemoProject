@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/CandyMatch3Kit/Scenes/HomeScene.unity
+    guid: 720618304d209483882dcd7760dba7d0
+  - enabled: 1
     path: Assets/CandyMatch3Kit/Scenes/LevelScene.unity
     guid: 1d29ee93b574348d8a749da70944c2bd
   - enabled: 1
