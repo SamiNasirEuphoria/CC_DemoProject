@@ -267,8 +267,8 @@ PlayerSettings:
   AndroidTargetArchitectures: 3
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: '{inproject}: Assets/user.keystore'
-  AndroidKeyaliasName: candy
+  AndroidKeystoreName: '{dedicated}: Downloads/Keystore.keystore'
+  AndroidKeyaliasName: keystore
   AndroidEnableArmv9SecurityFeatures: 0
   AndroidEnableArm64MTE: 0
   AndroidBuildApkPerCpuArchitecture: 0
